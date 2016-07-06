@@ -1,0 +1,86 @@
+@charset "utf-8";
+/* CSS Document */
+*{margin:0; padding:0;}
+#wrap{
+	width:100%;
+	background:#0C6;
+	margin:0 auto;
+}
+#header{
+	width:100%;
+	border:1px solid green;
+	background:green;
+}
+#mainbody{
+	width:100%;
+	border:1px solid yellow;
+	background:#0C6;
+	position:relative;
+	height: 500px;
+}
+#footer{
+	width:100%;
+	border:1px solid blue;
+	background:#6F3;
+	clear:both;
+}
+#happy{
+	float:right;
+	cursor:pointer;
+}
+#divselect{
+	position:absolute;
+	display:none;
+	top:0;
+	right:0px;
+	border:1px solid black;
+	padding:5px 10px;
+	background-color:yellow;
+}
+#divselect ul li{
+	list-style-type:none;
+	line-height:30px;
+	text-align:center;
+}
+#divselect ul li a{
+	text-decoration:none;
+}
+body .yourclass {
+    width: 420px;
+    height: 240px;
+    background-color: #81BA25;
+    box-shadow: none;
+    color: #fff;
+}
+.btn input[type = "button"]{
+	padding:5px;
+	cursor:pointer;
+	margin:15px;
+}
+.info{
+	margin:25px;
+}
+#name,#pwd{
+	padding:5px 5px 5px 20px;
+	margin:10px;
+}
+#register{
+	margin:20px 0 0 60px;
+}
+#login{
+	margin:20px 0 0 150px;
+}
+.u_logo{
+	background: url("../picture/username.png") no-repeat;
+	padding: 10px 10px;
+	position: absolute;
+	top: 43px;
+	left: 40px;
+}
+.p_logo{
+	background: url("../picture/password.png") no-repeat;
+	padding: 10px 10px;
+	position: absolute;
+	top: 93px;
+	left: 40px;
+}

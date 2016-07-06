@@ -1,0 +1,29 @@
+.left{
+	float:left;
+	height:650px;
+}
+.right{
+	float:left;
+	margin:0 0 0 170px;
+}
+.top{
+	font-size: larger;
+	font-weight: bold;
+}
+.hide{
+	display:none;
+}
+.show{
+	display:block;
+}
+#nav li{
+	display:inline-block;
+	width:150px;
+	line-height:30px;
+	text-align:center;
+	border:1px solid #CC3;
+	margin-left:5px;
+}
+input[type = "button"]{
+	padding: 5px;
+}

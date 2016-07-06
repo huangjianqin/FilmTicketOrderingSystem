@@ -1,0 +1,28 @@
+#header input {
+    padding: 5px;
+    margin: 0 0 0 250px;
+    width: 248px;
+}
+
+#header img {
+    vertical-align: middle;
+}
+
+#before {
+    margin: 300px 100px 0 100px;
+    float: left;
+}
+
+#next {
+    margin: 300px 100px 0 100px;
+    float: right;
+}
+
+#mainbody input[type = "button"] {
+    padding: 5px;
+    cursor: pointer;
+}
+
+#search {
+    cursor: pointer;
+}

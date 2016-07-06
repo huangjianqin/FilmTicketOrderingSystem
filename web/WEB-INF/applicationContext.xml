@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!-- 配置数据库-->
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close"
+          p:driverClass="com.mysql.jdbc.Driver"
+          p:jdbcUrl="jdbc:mysql://localhost:3306/filmticketorderingsystem"
+          p:user="root"
+          p:password="123456"
+          p:maxPoolSize="200"
+          p:minPoolSize="2"
+          p:initialPoolSize="2"
+          p:maxIdleTime="20"/>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
+          p:dataSource-ref="dataSource">
+        <property name="annotatedClasses">
+            <list>
+                <value>org.filmticketorderingsystem.domain.Actor</value>
+                <value>org.filmticketorderingsystem.domain.Cinema</value>
+                <value>org.filmticketorderingsystem.domain.CinemaHall</value>
+                <value>org.filmticketorderingsystem.domain.Film</value>
+                <value>org.filmticketorderingsystem.domain.FilmSession</value>
+                <value>org.filmticketorderingsystem.domain.FilmTicket</value>
+                <value>org.filmticketorderingsystem.domain.HallsRow</value>
+                <value>org.filmticketorderingsystem.domain.Order</value>
+                <value>org.filmticketorderingsystem.domain.User</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <value>
+                hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+                hibernate.hbm2ddl.auto=update
+                hibernate.show_sql=true
+                hibernate.format_sql=true
+            </value>
+        </property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager"
+          p:sessionFactory-ref="sessionFactory"/>
+
+    <!-- 配置DAO-->
+    <bean id="daoTemplate" abstract="true">
+        <property name="factory" ref="sessionFactory"/>
+    </bean>
+    <bean id="actorDao" class="org.filmticketorderingsystem.dao.impl.ActorDaoImpl" parent="daoTemplate"/>
+    <bean id="cinemaDao" class="org.filmticketorderingsystem.dao.impl.CinemaDaoImpl" parent="daoTemplate"/>
+    <bean id="cinemaHallDao" class="org.filmticketorderingsystem.dao.impl.CinemaHallDaoImpl" parent="daoTemplate"/>
+    <bean id="filmDao" class="org.filmticketorderingsystem.dao.impl.FilmDaoImpl" parent="daoTemplate"/>
+    <bean id="filmSessionDao" class="org.filmticketorderingsystem.dao.impl.FilmSessionImpl" parent="daoTemplate"/>
+    <bean id="filmTicketDao" class="org.filmticketorderingsystem.dao.impl.FilmTicketDaoImpl" parent="daoTemplate"/>
+    <bean id="hallsRowDao" class="org.filmticketorderingsystem.dao.impl.HallsRowDaoImpl" parent="daoTemplate"/>
+    <bean id="orderDao" class="org.filmticketorderingsystem.dao.impl.OrderDaoImpl" parent="daoTemplate"/>
+    <bean id="userDao" class="org.filmticketorderingsystem.dao.impl.UserDaoImpl" parent="daoTemplate"/>
+
+    <!-- 配置Generator-->
+    <bean id="orderNumGenerator" class="org.filmticketorderingsystem.generator.factory.GeneratorFactory"
+          factory-method="getOrderNumGenerator"/>
+    <bean id="orderVerifiCodeGenerator" class="org.filmticketorderingsystem.generator.factory.GeneratorFactory"
+          factory-method="getVerifiCodeGenerator"/>
+
+    <!-- 配置service-->
+    <bean id="userInfoService" class="org.filmticketorderingsystem.service.impl.UserInfoServiceImpl"
+          p:orderDao-ref="orderDao"
+          p:userDao-ref="userDao"
+          />
+
+    <bean id="userOrderingService" class="org.filmticketorderingsystem.service.impl.UserOrderingServiceImpl"
+          p:userDao-ref="userDao"
+          p:filmSeesionDao-ref="filmSessionDao"
+          p:filmTicketDao-ref="filmTicketDao"
+          p:orderDao-ref="orderDao"
+          p:orderNumGenerator-ref="orderNumGenerator"
+          p:orderVerifiCodeGenerator-ref="orderVerifiCodeGenerator"
+          />
+
+    <bean id="userQueryService" class="org.filmticketorderingsystem.service.impl.UserQueryServiceImpl"
+          p:filmSeesionDao-ref="filmSessionDao"
+          p:cinemaDao-ref="cinemaDao"
+          p:filmDao-ref="filmDao"
+          />
+
+    <bean id="userService" class="org.filmticketorderingsystem.service.impl.UserServiceImpl"
+          p:infoService-ref="userInfoService"
+          p:orderingService-ref="userOrderingService"
+          p:queryService-ref="userQueryService"
+          />
+
+    <bean id="cinemaService" class="org.filmticketorderingsystem.service.impl.CinemaServiceImpl"
+          p:filmDao-ref="filmDao"
+          p:cinemaDao-ref="cinemaDao"
+          p:filmSessionDao-ref="filmSessionDao"
+          />
+
+    <!-- 配置事务-->
+
+    <tx:advice id="txAdviceForQuery" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="find*" read-only="true" />
+        </tx:attributes>
+    </tx:advice>
+    
+    <aop:config>
+        <aop:pointcut id="daoPointcut" expression="execution(* org.filmticketorderingsystem.dao.impl.*.*(..))"/>
+        <aop:advisor advice-ref="txAdviceForQuery" pointcut-ref="daoPointcut"/>
+    </aop:config>
+</beans>

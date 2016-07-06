@@ -1,0 +1,23 @@
+.left{
+	float:left;
+}
+.right{
+	float:right;
+	border-left:1px solid blue;
+	padding-left:30px;
+}
+input[type = "button"]{
+	padding: 5px;
+	margin: 5px;
+}
+.right img{
+	margin:10px;
+}
+.left p {
+	text-align: center;
+	text-indent:350px;
+}
+.seat{
+	margin:50px 0 0 330px;
+	cursor:pointer;
+}
