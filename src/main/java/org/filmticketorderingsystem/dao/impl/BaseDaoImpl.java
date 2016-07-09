@@ -3,7 +3,6 @@ package org.filmticketorderingsystem.dao.impl;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.filmticketorderingsystem.dao.BaseDao;
-
 import java.io.Serializable;
 import java.util.List;
 

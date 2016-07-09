@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by ���� on 2016/5/12.
+ * Created by 健勤 on 2016/5/12.
  * 订单号生成器,=年月日+流水号
  */
 public class OrderNumGenerator {

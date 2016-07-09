@@ -29,7 +29,6 @@ public class FilmTicket implements Serializable {
         this.flag = 1;
     }
 
-
     public Integer getFilmTicketId() {
         return filmTicketId;
     }
@@ -91,5 +90,17 @@ public class FilmTicket implements Serializable {
         result = 31 * result + (flag != null ? flag.hashCode() : 0);
         result = 31 * result + (filmSession != null ? filmSession.hashCode() : 0);
         return result;
+    }
+
+
+    @Override
+    public String toString() {
+        return "FilmTicket{" +
+                "filmTicketId=" + filmTicketId +
+                ", selectedSeat='" + selectedSeat + '\'' +
+                ", flag=" + flag +
+                ", filmSession=" + filmSession +
+                ", order=" + order +
+                '}';
     }
 }

@@ -11,6 +11,7 @@ public class FilmSeesionDetailBean {
     private String pricturePath;
     private String filmName;
     private String kind;
+    private String duration;
 
     private String cinemaName;
     private String type;//播放语言+播放类型
@@ -20,6 +21,8 @@ public class FilmSeesionDetailBean {
     private Integer restSeatNum;
     //key为排号,value为具体座位的信息
     private Map<String, List<String>> hall2Seat;
+    //记录已选位置
+    private List<String> selectedSeats;
 
     private Integer state = -1;
 
@@ -53,6 +56,14 @@ public class FilmSeesionDetailBean {
 
     public void setKind(String kind) {
         this.kind = kind;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 
     public String getCinemaName() {
@@ -117,5 +128,13 @@ public class FilmSeesionDetailBean {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public List<String> getSelectedSeats() {
+        return selectedSeats;
+    }
+
+    public void setSelectedSeats(List<String> selectedSeats) {
+        this.selectedSeats = selectedSeats;
     }
 }

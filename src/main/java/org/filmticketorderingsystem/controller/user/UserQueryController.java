@@ -3,14 +3,21 @@ package org.filmticketorderingsystem.controller.user;
 import org.filmticketorderingsystem.bean.*;
 import org.filmticketorderingsystem.bean.json.SearchResultBeanList;
 import org.filmticketorderingsystem.bean.json.SimpleFilmBeanList;
+import org.filmticketorderingsystem.generator.factory.GeneratorFactory;
 import org.filmticketorderingsystem.service.UserQueryService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 健勤 on 2016/7/5.
@@ -31,6 +38,11 @@ public class UserQueryController {
     @ResponseBody
     public SearchResultBeanList search(@RequestParam String keyword){
         SearchResultBeanList searchResultBeanList = new SearchResultBeanList();
+//      解决js或jquery动态获取url参数乱码
+        try {
+            keyword = new String(keyword.getBytes("iso-8859-1"),"utf-8");
+        } catch (UnsupportedEncodingException e) {
+        }
 
         List<SearchResultBean> searchResultBeans = userQueryService.search(keyword);
 
@@ -44,7 +56,10 @@ public class UserQueryController {
 
     @RequestMapping(value = "/getRecentFilms.do")
     @ResponseBody
-    public SimpleFilmBeanList getRecentFilms(@RequestParam String dateStr){
+    public SimpleFilmBeanList getRecentFilms(){
+        //获取格式化后的当前时间
+        String dateStr = GeneratorFactory.getDateGenerator().getFormatedNowDate();
+
         SimpleFilmBeanList simpleFilmBeanList = new SimpleFilmBeanList();
 
         List<SimpleFilmBean> simpleFilmBeans = userQueryService.getRecentFilms(dateStr);
@@ -69,30 +84,30 @@ public class UserQueryController {
     @ResponseBody
     public FilmWithCineAndSessBean getCinemaSessionInfo(@RequestParam Integer cinemaId,
                                                         @RequestParam String dateStr){
+        FilmWithCineAndSessBean filmWithCineAndSessBean = userQueryService.getCinemaSessionInfo(cinemaId, dateStr);
+        filmWithCineAndSessBean.setState(1);
 
-        FilmWithCineAndSessBean result = userQueryService.getCinemaSessionInfo(cinemaId, dateStr);
-        result.setState(1);
-
-        return result;
+        return filmWithCineAndSessBean;
     }
 
     @RequestMapping(value = "/getOneFilmSessionInfo.do")
     @ResponseBody
     public FilmWithSessionBean getOneFilmSessionInfo(@RequestParam Integer filmId,
-                                                     @RequestParam String dateStr){
-        FilmWithSessionBean result = userQueryService.getOneFilmSessionInfo(filmId, dateStr);
-        result.setState(1);
+                                                     @RequestParam String dateStr,
+                                                     Map<String, Object> model){
+        FilmWithSessionBean filmWithSessionBean = userQueryService.getOneFilmSessionInfo(filmId, dateStr);
+        filmWithSessionBean.setState(1);
 
-        return result;
+        return filmWithSessionBean;
     }
 
     @RequestMapping(value = "/getOneFilmSessionDetail.do")
     @ResponseBody
     public FilmSeesionDetailBean getOneFilmSessionDetail(@RequestParam Integer sessionId){
-        FilmSeesionDetailBean result = userQueryService.getOneFilmSessionDetail(sessionId);
-        result.setState(1);
+        FilmSeesionDetailBean filmSeesionDetailBean = userQueryService.getOneFilmSessionDetail(sessionId);
+        filmSeesionDetailBean.setState(1);
 
-        return result;
+        return filmSeesionDetailBean;
     }
 
 }

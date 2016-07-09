@@ -1,14 +1,12 @@
 package org.filmticketorderingsystem.bean;
 
 /**
- * Created by 健勤 on 2016/5/14.
+ * Created by 鍋ュ嫟 on 2016/5/14.
  */
 public class SimpleFilmSessionBean {
-    //查看电影院场次时设置所有属性
-    //查看电影场次时设置前4个
     private Integer filmSessionId;
     private String startDate;
-    private String type;//播放语言+播放类型
+    private String type;//鎾斁绫诲瀷+鎾斁璇█
     private Double price;
 
     private String endDate;

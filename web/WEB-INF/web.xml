@@ -5,7 +5,7 @@
          version="3.1">
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/applicationContext.xml</param-value>
+        <param-value>/WEB-INF/applicationContext.xml,/WEB-INF/spring-task.xml</param-value>
     </context-param>
 
     <!-- 注册加载spring容器的listener-->
@@ -27,7 +27,7 @@
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>
 
-    <!-- 配置过滤器,目的是为了让session在请求中一直打开-->
+    <!--配置过滤器,目的是为了让session在请求中一直打开-->
     <filter>
         <filter-name>OpenSessionInViewFilter</filter-name>
         <filter-class>org.springframework.orm.hibernate5.support.OpenSessionInViewFilter</filter-class>

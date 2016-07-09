@@ -1,7 +1,7 @@
 package org.filmticketorderingsystem.bean;
 
 /**
- * Created by ½¡ÇÚ on 2016/5/14.
+ * Created by å¥å‹¤ on 2016/5/14.
  */
 public class SimpleFilmBean {
     private Integer filmId;

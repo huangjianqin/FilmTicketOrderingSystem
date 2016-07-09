@@ -38,12 +38,14 @@ public class UserOrderingController {
     @RequestMapping(value = "/handInOrder.do")
     @ResponseBody
     public OrderDetailBean handInOrder(@RequestParam Integer filmSessionId,
-                                 @RequestParam String[] selectedSeat,
+                                 @RequestParam String selectedSeat,
                                  HttpServletRequest request){
         //获取当前登录用户id
         String id = (String)request.getSession().getAttribute("user_id");
 
-        String[] result = userOrderingService.handInOrder(id, filmSessionId, selectedSeat);
+        String[] selectedSeats = selectedSeat.split(",");
+
+        String[] result = userOrderingService.handInOrder(id, filmSessionId, selectedSeats);
 
         if(result != null){
             OrderDetailBean orderDetailBean = new OrderDetailBean();

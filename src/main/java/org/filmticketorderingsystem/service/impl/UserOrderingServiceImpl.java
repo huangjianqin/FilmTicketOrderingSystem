@@ -6,11 +6,13 @@ import org.filmticketorderingsystem.dao.OrderDao;
 import org.filmticketorderingsystem.dao.UserDao;
 import org.filmticketorderingsystem.domain.*;
 import org.filmticketorderingsystem.enums.OrderState;
+import org.filmticketorderingsystem.generator.DateGenerator;
 import org.filmticketorderingsystem.generator.OrderNumGenerator;
 import org.filmticketorderingsystem.generator.OrderVerifiCodeGenerator;
 import org.filmticketorderingsystem.service.UserOrderingService;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class UserOrderingServiceImpl implements UserOrderingService {
     private FilmTicketDao filmTicketDao;
     private OrderNumGenerator orderNumGenerator;
     private OrderVerifiCodeGenerator orderVerifiCodeGenerator;
+    private DateGenerator dateGenerator;
 
     public OrderDao getOrderDao() {
         return orderDao;
@@ -73,6 +76,14 @@ public class UserOrderingServiceImpl implements UserOrderingService {
         this.orderVerifiCodeGenerator = orderVerifiCodeGenerator;
     }
 
+    public DateGenerator getDateGenerator() {
+        return dateGenerator;
+    }
+
+    public void setDateGenerator(DateGenerator dateGenerator) {
+        this.dateGenerator = dateGenerator;
+    }
+
     /**
      *提交订单
      * @param id
@@ -105,34 +116,39 @@ public class UserOrderingServiceImpl implements UserOrderingService {
         Order order = new Order();
 
         order.setOrderNum(orderNum);//generator订单号
-        order.setBookTime(orderNumGenerator.dateFormat(now));
+        order.setBookTime(dateGenerator.getFormatedNowFullDate());
         order.setState(OrderState.ORDER_NOT_PAID.getState());
         order.setUser(user);
         order.setSumMoney(selectedSeat.length * filmSession.getPrice());
         order.setVerificationCode(orderVerifiCode);//generator订单验证码
+
+        orderDao.save(order);
 
         for(String seat : selectedSeat){
             FilmTicket ticket = new FilmTicket();
 
             //电影票ID=场次ID+行号+列号,
             String sessionId = String.valueOf(filmSession.getFilmSessionId());
-            String row = seat.split(" ")[0];
-            String col = seat.split(" ")[1];
+            String row = seat.split("\\s+")[0];
+            String col = seat.split("\\s+")[1];
+
+            //取出row的数字形式
+            row = row.substring(0, row.length() - 1);
 
             //若行号的长度是2,则是1排XX座,需要转换为01的数字形式
-            if(row.length() == 2){
-                row += "0" + row;
+            if(row.length() == 1){
+                row = "0" + row;
             }
 
             ticket.setFilmTicketId(Integer.valueOf(sessionId
-                    + row.substring(0, row.length() - 1) + col.substring(0, row.length() - 1)));
+                    + row + col.substring(0, col.length() - 1)));
+
             ticket.setFilmSession(filmSession);
             ticket.setSelectedSeat(seat);
+            ticket.setFlag(1);
             ticket.setOrder(order);
             filmTicketDao.save(ticket);
         }
-
-        orderDao.save(order);
 
         result[0] = "1";
         result[1] = orderNum;
@@ -153,7 +169,7 @@ public class UserOrderingServiceImpl implements UserOrderingService {
         Order order = orderDao.findByOrderNum(orderNum);
 
         //判断订单是否已支付
-        if(order.getState() == OrderState.ORDER_PAID.getState()){
+        if(order.getState() == OrderState.ORDER_FINISHED.getState()){
             return 0;
         }
         //判断订单是否超过15分钟未支付自动失效
@@ -177,6 +193,8 @@ public class UserOrderingServiceImpl implements UserOrderingService {
         } else {
             user.setWallet(user.getWallet() - order.getSumMoney());
             flag = 1;
+            order.setState(OrderState.ORDER_FINISHED.getState());
+            order.setFinishTime(dateGenerator.getFormatedNowFullDate());
         }
 
         cinema.setWallet(cinema.getWallet() + order.getSumMoney());

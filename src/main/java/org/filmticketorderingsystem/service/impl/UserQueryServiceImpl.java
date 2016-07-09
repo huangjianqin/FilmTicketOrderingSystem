@@ -144,6 +144,7 @@ public class UserQueryServiceImpl implements UserQueryService{
             }
 
             result.setActors(actorBeans);
+            result.setState(1);
 
             return result;
         }
@@ -220,7 +221,8 @@ public class UserQueryServiceImpl implements UserQueryService{
             simpleFilmBean.setFilmName(film.getFilmName());
             simpleFilmBean.setPricturePath(film.getPricturePath());
             simpleFilmBean.setRating(film.getRating());
-            simpleFilmBean.setReleaseDate(film.getReleaseDate());
+            simpleFilmBean.setReleaseDate(film.getReleaseDate()
+                    .replaceFirst("-", "年").replaceFirst("-", "月").replaceFirst(" ", "日 "));
             simpleFilmBean.setDuration(film.getDuration());
             simpleFilmBean.setKind(film.getKind());
 
@@ -243,8 +245,8 @@ public class UserQueryServiceImpl implements UserQueryService{
                 SimpleFilmSessionBean simpleFilmSessionBean = new SimpleFilmSessionBean();
 
                 simpleFilmSessionBean.setFilmSessionId(session.getFilmSessionId());
-                simpleFilmSessionBean.setStartDate(session.getStartDate());
-                simpleFilmSessionBean.setType(session.getPlayLanguage() + " " + session.getPlayType() );
+                simpleFilmSessionBean.setStartDate(session.getStartDate().split(" ")[1]);
+                simpleFilmSessionBean.setType(session.getPlayType() + " " + session.getPlayLanguage());
                 simpleFilmSessionBean.setPrice(session.getPrice());
 
                 //没处理过这个影院
@@ -264,7 +266,7 @@ public class UserQueryServiceImpl implements UserQueryService{
                 else{
                     double temp = cinema2Price.get(cinema.getCinemaName());
                     if(session.getPrice() < temp){
-                        cinema2Price.put(cinema.getCinemaName(), temp);
+                        cinema2Price.put(cinema.getCinemaName(), session.getPrice());
                     }
                 }
 
@@ -282,7 +284,7 @@ public class UserQueryServiceImpl implements UserQueryService{
                     return null;
                 }
 
-                String newKey = key + cinema2Price.get(cinemaName);
+                String newKey = key + "," + cinema2Price.get(cinemaName);
 
                 film2Session.put(newKey, tempFilm2Session.get(key));
             }
@@ -314,6 +316,7 @@ public class UserQueryServiceImpl implements UserQueryService{
             bean.setPricturePath(film.getPricturePath());
             bean.setFilmName(film.getFilmName());
             bean.setKind(film.getKind());
+            bean.setDuration(film.getDuration());
 
             bean.setCinemaName(cinema.getCinemaName());
             bean.setType(session.getPlayLanguage() + " " + session.getPlayType());
@@ -323,7 +326,7 @@ public class UserQueryServiceImpl implements UserQueryService{
 
             Integer restSeatNum = -1;
             //key为排号,value为对应排的座位
-            Map<String, List<String>> hall2Seat = new HashMap<String, List<String>>();
+            Map<String, List<String>> hall2Seat = new TreeMap<String, List<String>>();
 
             Set<HallsRow> rows = cinemaHall.getHallsRows();
             Integer sum = 0;
@@ -359,9 +362,18 @@ public class UserQueryServiceImpl implements UserQueryService{
                 hall2Seat.put(rowName, seatDetailInfos);
 
             }
+            //存储已选择座位
+            List<String> selectedSeats = new ArrayList<String>();
+
+            for(FilmTicket ticket: session.getFilmTickets()){
+                if(ticket.getFlag() != -1){
+                    selectedSeats.add(ticket.getSelectedSeat());
+                }
+            }
 
             bean.setRestSeatNum(sum - session.getFilmTickets().size());
             bean.setHall2Seat(hall2Seat);
+            bean.setSelectedSeats(selectedSeats);
 
             return  bean;
         }

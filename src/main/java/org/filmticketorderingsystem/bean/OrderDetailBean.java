@@ -3,7 +3,7 @@ package org.filmticketorderingsystem.bean;
 import java.util.List;
 
 /**
- * Created by ���� on 2016/5/13.
+ * Created by 健勤 on 2016/5/13.
  */
 public class OrderDetailBean {
     private String pricturePath;

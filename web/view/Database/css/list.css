@@ -1,0 +1,13 @@
+li{
+	list-style-type:none;
+	font-size:25pt;
+	margin-left:100px;
+}
+span{
+	font-size:40pt;
+	font-weight:bold;
+}
+#mainbody{
+	width:30%;
+	margin:0 auto;
+}

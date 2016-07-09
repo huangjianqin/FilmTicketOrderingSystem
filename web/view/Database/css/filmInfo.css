@@ -1,0 +1,11 @@
+p{
+	font-size:20pt;
+}
+.left{
+	float:left;
+}
+.right{
+	float:left;
+	width:700px;
+	margin-left:100px;
+}

@@ -1,5 +1,6 @@
 package org.filmticketorderingsystem.generator.factory;
 
+import org.filmticketorderingsystem.generator.DateGenerator;
 import org.filmticketorderingsystem.generator.OrderNumGenerator;
 import org.filmticketorderingsystem.generator.OrderVerifiCodeGenerator;
 
@@ -13,5 +14,9 @@ public class GeneratorFactory {
 
     public static OrderVerifiCodeGenerator getVerifiCodeGenerator(){
         return OrderVerifiCodeGenerator.getGenerator();
+    }
+
+    public static DateGenerator getDateGenerator(){
+        return  DateGenerator.getGenerator();
     }
 }

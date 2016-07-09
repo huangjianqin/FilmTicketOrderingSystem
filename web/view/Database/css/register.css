@@ -1,0 +1,45 @@
+.btn input[type = "button"]{
+	padding:5px;
+	cursor:pointer;
+	margin:15px;
+}
+.info{
+	margin:25px;
+}
+#name,#pwd{
+	padding:5px 5px 5px 20px;
+	margin:10px;
+}
+#register{
+	margin:100px 0 0 600px;
+}
+#login{
+	margin:20px 0 0 150px;
+}
+.u_logo{
+	background: url("../picture/username.png") no-repeat;
+	padding: 10px 10px;
+	position: absolute;
+	top: 295px;
+	left: 640px;
+}
+.p_logo{
+	background: url("../picture/password.png") no-repeat;
+	padding: 10px 10px;
+	position: absolute;
+	top: 345px;
+	left: 640px;
+}
+.btn{
+	margin:-70px 0 0 -530px;
+}
+#logo{
+	margin:100px 0 0 700px;
+}
+#registermainbody{
+	width:100%;
+	border:1px solid yellow;
+	background:#0C6;
+	position:relative;
+	height: 750px;
+}

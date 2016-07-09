@@ -19,6 +19,7 @@ public class FilmBean {
     private String pricturePath;
     private Set<ActorBean> actors;
 
+    private Integer state = -1;
 
     public Integer getFilmId() {
         return filmId;
@@ -90,5 +91,13 @@ public class FilmBean {
 
     public void setActors(Set<ActorBean> actors) {
         this.actors = actors;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 }

@@ -3,8 +3,9 @@
 }
 .right{
 	float:right;
-	border-left:1px solid blue;
+	border-left:2px solid blue;
 	padding-left:30px;
+	width: 300px;
 }
 input[type = "button"]{
 	padding: 5px;

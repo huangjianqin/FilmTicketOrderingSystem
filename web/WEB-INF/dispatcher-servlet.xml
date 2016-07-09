@@ -11,13 +11,15 @@
         <context:component-scan base-package="org.filmticketorderingsystem.controller">
         </context:component-scan>
 
-        <mvc:annotation-driven/>
-
+        <mvc:annotation-driven />
+        
         <bean id="contentNegotiatingViewResolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
             <property name="viewResolvers">
                 <list>
                     <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-                        <property name="prefix" value="/view/jsp"/>
+                        <property name="order" value="0"/>
+                        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+                        <property name="prefix" value="/view/Database/"/>
                         <property name="suffix" value=".jsp"/>
                     </bean>
                 </list>
@@ -29,6 +31,5 @@
                 </list>
             </property>
         </bean>
-
 
 </beans>

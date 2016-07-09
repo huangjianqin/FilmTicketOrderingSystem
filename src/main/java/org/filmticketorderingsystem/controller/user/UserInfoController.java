@@ -40,6 +40,7 @@ public class UserInfoController {
         if(id != null && !id.equals("")){
             String userName = (String)request.getSession().getAttribute("userName");
             userBean.setUserName(userName);
+            userBean.setId(id);
             userBean.setState(1);
         }
 

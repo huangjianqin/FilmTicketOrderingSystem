@@ -160,6 +160,12 @@
             <version>2.7.4</version>
         </dependency>
 
+        <!-- 配置jstl-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
 
     </dependencies>
 

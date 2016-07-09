@@ -35,6 +35,7 @@
                 <value>org.filmticketorderingsystem.domain.User</value>
             </list>
         </property>
+
         <property name="hibernateProperties">
             <value>
                 hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
@@ -67,6 +68,8 @@
           factory-method="getOrderNumGenerator"/>
     <bean id="orderVerifiCodeGenerator" class="org.filmticketorderingsystem.generator.factory.GeneratorFactory"
           factory-method="getVerifiCodeGenerator"/>
+    <bean id="dateGenerator" class="org.filmticketorderingsystem.generator.factory.GeneratorFactory"
+          factory-method="getDateGenerator"/>
 
     <!-- 配置service-->
     <bean id="userInfoService" class="org.filmticketorderingsystem.service.impl.UserInfoServiceImpl"
@@ -81,6 +84,7 @@
           p:orderDao-ref="orderDao"
           p:orderNumGenerator-ref="orderNumGenerator"
           p:orderVerifiCodeGenerator-ref="orderVerifiCodeGenerator"
+          p:dateGenerator-ref="dateGenerator"
           />
 
     <bean id="userQueryService" class="org.filmticketorderingsystem.service.impl.UserQueryServiceImpl"
@@ -107,6 +111,7 @@
         <tx:attributes>
             <tx:method name="get*" read-only="true"/>
             <tx:method name="find*" read-only="true" />
+            <tx:method name="save*" />
         </tx:attributes>
     </tx:advice>
     
