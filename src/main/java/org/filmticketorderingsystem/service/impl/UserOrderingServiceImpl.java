@@ -169,7 +169,7 @@ public class UserOrderingServiceImpl implements UserOrderingService {
         Order order = orderDao.findByOrderNum(orderNum);
 
         //判断订单是否已支付
-        if(order.getState() == OrderState.ORDER_FINISHED.getState()){
+        if(order.getState() == OrderState.ORDER_PAID.getState()){
             return 0;
         }
         //判断订单是否超过15分钟未支付自动失效
@@ -193,7 +193,7 @@ public class UserOrderingServiceImpl implements UserOrderingService {
         } else {
             user.setWallet(user.getWallet() - order.getSumMoney());
             flag = 1;
-            order.setState(OrderState.ORDER_FINISHED.getState());
+            order.setState(OrderState.ORDER_PAID.getState());
             order.setFinishTime(dateGenerator.getFormatedNowFullDate());
         }
 

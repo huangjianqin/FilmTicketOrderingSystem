@@ -314,6 +314,7 @@ public class UserQueryServiceImpl implements UserQueryService{
 
             bean.setFilmSeesionId(sessionId);
             bean.setPricturePath(film.getPricturePath());
+            bean.setFilmId(film.getFilmId());
             bean.setFilmName(film.getFilmName());
             bean.setKind(film.getKind());
             bean.setDuration(film.getDuration());

@@ -9,6 +9,7 @@ import java.util.Map;
 public class FilmSeesionDetailBean {
     private Integer filmSeesionId;
     private String pricturePath;
+    private Integer filmId;
     private String filmName;
     private String kind;
     private String duration;
@@ -136,5 +137,13 @@ public class FilmSeesionDetailBean {
 
     public void setSelectedSeats(List<String> selectedSeats) {
         this.selectedSeats = selectedSeats;
+    }
+
+    public Integer getFilmId() {
+        return filmId;
+    }
+
+    public void setFilmId(Integer filmId) {
+        this.filmId = filmId;
     }
 }

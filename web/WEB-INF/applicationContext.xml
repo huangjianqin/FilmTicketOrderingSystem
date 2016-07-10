@@ -114,9 +114,25 @@
             <tx:method name="save*" />
         </tx:attributes>
     </tx:advice>
+
+    <tx:advice id="txAdviceForInsert" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="save*" />
+        </tx:attributes>
+    </tx:advice>
+
+    <tx:advice id="txAdviceForUpdate" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="update*" />
+        </tx:attributes>
+    </tx:advice>
     
     <aop:config>
-        <aop:pointcut id="daoPointcut" expression="execution(* org.filmticketorderingsystem.dao.impl.*.*(..))"/>
-        <aop:advisor advice-ref="txAdviceForQuery" pointcut-ref="daoPointcut"/>
+        <aop:pointcut id="daoPointcut1" expression="execution(* org.filmticketorderingsystem.dao.impl.*.*(..))"/>
+        <aop:pointcut id="daoPointcut2" expression="execution(* org.filmticketorderingsystem.task.*.*(..))"/>
+        <aop:advisor advice-ref="txAdviceForQuery" pointcut-ref="daoPointcut1"/>
+        <aop:advisor advice-ref="txAdviceForInsert" pointcut-ref="daoPointcut1"/>
+        <aop:advisor advice-ref="txAdviceForUpdate" pointcut-ref="daoPointcut1"/>
+        <aop:advisor advice-ref="txAdviceForUpdate" pointcut-ref="daoPointcut2"/>
     </aop:config>
 </beans>

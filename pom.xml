@@ -116,12 +116,7 @@
         </dependency>
 
         <!-- 配置 C3p0的mysql数据库连接池-->
-       <dependency>
-            <groupId>c3p0</groupId>
-            <artifactId>c3p0</artifactId>
-            <version>0.9.1.2</version>
-        </dependency>
-
+        <!--自动包含C3p0 jar包-->
         <dependency>
             <groupId>com.mchange</groupId>
             <artifactId>mchange-commons-java</artifactId>

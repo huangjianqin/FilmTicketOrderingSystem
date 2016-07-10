@@ -6,7 +6,12 @@ $(function(){
 	};
 
 	$("#userName").bind("click", function(){
-		window.location.href = "./register.html";
+		if($("#userName").val() === "请登录"){
+			window.location.href = "./register.html";
+		}
+		else{
+			logout();
+		}
 	});
 
 	$("#logo").bind("click", function(){
@@ -14,6 +19,29 @@ $(function(){
 	})
 
 });
+
+
+function logout(){
+	var userName= $("#userName").val();
+
+	if(!userName==""){
+		$.ajax({
+			url: "/user/info/logout.do",
+			dataType: "json",
+			async: true,
+			type: "post",
+			success: function(data){
+				alert("成功注销!");
+				$("#userName").html("请登录");
+			},
+			error: function(err){
+				alert("系统管理员已记录错误操作,正为你马上解决问题,请你耐心等候!");
+				return err;
+			}
+		})
+	}
+
+}
 
 function getFormatDate(fullYear, month, day){
 	var formatDate = fullYear + "-";

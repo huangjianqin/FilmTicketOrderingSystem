@@ -22,25 +22,4 @@ $(function(){
             }
         }
     })
-})
-
-function logout(){
-    var userName= $("#userName").val();
-
-    if(!userName==""){
-        $.ajax({
-            url: "/user/info/logout.do",
-            dataType: "json",
-            async: true,
-            type: "post",
-            success: function(data){
-                alert("成功注销!");
-            },
-            error: function(err){
-                alert("系统管理员已记录错误操作,正为你马上解决问题,请你耐心等候!");
-                return err;
-            }
-        })
-    }
-
-}
+});

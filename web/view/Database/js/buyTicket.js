@@ -17,6 +17,8 @@ $(function(){
 				$("#cinemaNameAndHall").append(data.cinemaName + " " + data.cinemaHallName);
 				$("#leftSeats").append(data.restSeatNum + "个座位");
 				$("#pricture").attr("src","http://localhost:8080" + data.pricturePath);
+				//
+				$("#pricture").attr("onclick", "getFilmInfo(" + data.filmId + ")");
 				$("#filmName").append(data.filmName);
 				$("#duration").append(data.duration);
 				$("#kind").append(data.kind);
@@ -43,6 +45,11 @@ $(function(){
 
 });
 
+//跳转至显示电影主要信息
+function getFilmInfo(filmId){
+	window.location.href = "./filmInfo.html?filmId=" + filmId;
+}
+
 function handInOrder(sessionId){
 	var userName = $("#userName").text();
 	//未选择位置
@@ -65,6 +72,7 @@ function handInOrder(sessionId){
 			success: function(data){
 				if(data.state == 1){
 					alert("您的订单号:" + data.orderNum);
+					window.location.href = "./index.html";
 					//window.location.href = "?orderNum=" + data.orderNum;
 				}
 			},
